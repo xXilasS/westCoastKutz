@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline | West Coast Kutz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
+        .heading {
+            font-family: 'Bebas Neue', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-charcoal text-white min-h-screen flex items-center justify-center">
+    <div class="text-center px-4">
+        <h1 class="heading text-5xl mb-4">WEST COAST <span class="text-accentRed">KUTZ</span></h1>
+        <div class="max-w-md mx-auto">
+            <p class="text-xl mb-6">You're currently offline. Some features may not be available until you reconnect.</p>
+            <button onclick="window.location.reload()" class="bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium">
+                Try Again
+            </button>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<!-- This implementation includes:
+
+1. A responsive landing page with all key sections (hero, services, barbers, gallery, reviews, hours/location, FAQs, CTA)
+2. PWA setup with manifest.json and service worker
+3. Offline fallback page
+4. Modern barbershop aesthetic using the requested color palette
+5. Mobile-friendly design with a sticky "Book Now" CTA
+6. Smooth scrolling and animations
+7. SEO-friendly structure with semantic HTML
+8. Interactive elements like the FAQ toggle
+9. Feather icons integration
+10. AOS scroll animations
+
+The design emphasizes the no-marketplace-fee booking system with clear CTAs throughout. The PWA components will make the site installable and provide offline functionality. -->

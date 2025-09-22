@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="West Coast Kutz - Premium barbershop in Hastings, Nebraska offering precision cuts with no third-party booking fees.">
+    <title>West Coast Kutz | Cuts with Culture</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#111827">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#000000',
+                        white: '#FFFFFF',
+                        accentRed: '#B91C1C',
+                        accentBlue: '#1D4ED8',
+                        silver: '#9CA3AF',
+                    },
+                    fontFamily: {
+                        heading: ['"Old English Text MT"', 'serif'],
+                        body: ['"Arial Narrow"', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.cdnfonts.com/css/old-english-text-mt" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 100%);
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(185, 28, 28, 0.3);
+        }
+        .barber-card {
+            border: 4px solid #B91C1C;
+            box-shadow: 8px 8px 0px #1D4ED8;
+        }
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        .graffiti-bg {
+            background-image: url('http://static.photos/black/1200x630/42');
+            background-size: cover;
+            background-position: center;
+        }
+        .card-corner {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .card-corner.top-left {
+            top: 10px;
+            left: 10px;
+        }
+        .card-corner.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-body text-silver bg-charcoal scroll-smooth">
+    <!-- Navigation -->
+    <nav class="bg-charcoal border-b border-silver/10 fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <span class="font-heading text-2xl text-white">WEST COAST <span class="text-accentRed">KUTZ</span></span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#services" class="text-white hover:text-accentGold transition">Services</a>
+                    <a href="#barbers" class="text-white hover:text-accentGold transition">Barbers</a>
+                    <a href="#gallery" class="text-white hover:text-accentGold transition">Gallery</a>
+                    <a href="#reviews" class="text-white hover:text-accentGold transition">Reviews</a>
+                    <a href="/book" class="bg-accentRed hover:bg-red-600 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                </div>
+                <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden bg-charcoal border-t border-silver/10" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#services" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Services</a>
+                <a href="#barbers" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Barbers</a>
+                <a href="#gallery" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Gallery</a>
+                <a href="#reviews" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Reviews</a>
+                <a href="/book" class="block px-3 py-2 bg-accentRed text-white rounded-md font-medium">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center graffiti-bg">
+        <div class="hero-gradient absolute inset-0"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto" data-aos="fade-up">
+            <h1 class="font-heading text-5xl md:text-7xl text-white mb-4">
+                <span class="text-accentRed">WEST COAST</span> KUTZ
+            </h1>
+            <h2 class="font-heading text-3xl md:text-5xl text-white mb-6">
+                CUTS WITH CULTURE
+            </h2>
+            <p class="text-xl text-silver mb-8 max-w-2xl mx-auto">
+                Fresh fades. Real style. La Familia first. Book direct—no third-party fees.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/book" class="bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">Book Now</a>
+                <a href="#services" class="bg-transparent border-2 border-white hover:bg-white/10 text-white px-6 py-3 rounded-md font-medium text-lg transition">View Services</a>
+            </div>
+        </div>
+        <div class="absolute bottom-10 left-0 right-0 flex justify-center">
+            <a href="#services" class="text-white animate-bounce">
+                <i data-feather="chevron-down" class="w-8 h-8"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-charcoal mb-4">OUR SERVICES</h2>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver max-w-2xl mx-auto">
+                    Premium cuts with no third-party booking fees. Choose your service and book directly with us.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="service-card bg-white border border-silver/20 rounded-lg overflow-hidden transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-heading text-2xl text-charcoal">Classic Cut</h3>
+                            <span class="bg-accentGold text-white text-sm font-bold px-3 py-1 rounded-full">$25</span>
+                        </div>
+                        <p class="text-silver mb-4">A timeless haircut that never goes out of style.</p>
+                        <div class="flex items-center text-silver text-sm mb-4">
+                            <i data-feather="clock" class="w-4 h-4 mr-2"></i>
+                            <span>30 minutes</span>
+                        </div>
+                        <a href="/book?service=classic-cut" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="service-card bg-white border border-silver/20 rounded-lg overflow-hidden transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-heading text-2xl text-charcoal">Skin Fade</h3>
+                            <span class="bg-accentGold text-white text-sm font-bold px-3 py-1 rounded-full">$35</span>
+                        </div>
+                        <p class="text-silver mb-4">A seamless transition from skin to hair for a sharp look.</p>
+                        <div class="flex items-center text-silver text-sm mb-4">
+                            <i data-feather="clock" class="w-4 h-4 mr-2"></i>
+                            <span>45 minutes</span>
+                        </div>
+                        <a href="/book?service=skin-fade" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                    </div>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="service-card bg-white border border-silver/20 rounded-lg overflow-hidden transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-heading text-2xl text-charcoal">Beard Trim & Line-Up</h3>
+                            <span class="bg-accentGold text-white text-sm font-bold px-3 py-1 rounded-full">$15</span>
+                        </div>
+                        <p class="text-silver mb-4">Precision beard shaping and detailing for a polished look.</p>
+                        <div class="flex items-center text-silver text-sm mb-4">
+                            <i data-feather="clock" class="w-4 h-4 mr-2"></i>
+                            <span>20 minutes</span>
+                        </div>
+                        <a href="/book?service=beard-trim" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="/book" class="inline-block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">View All Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Barbers Section -->
+    <section id="barbers" class="py-20 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-white mb-4">MEET THE BARBERS</h2>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver max-w-2xl mx-auto">
+                    Our skilled barbers are ready to give you the perfect cut with attention to detail.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Barber Card 1 -->
+                <div class="barber-card bg-black relative transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-corner top-left text-accentRed">Q ♥</div>
+                    <div class="card-corner bottom-right text-accentRed">Q ♥</div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="http://static.photos/people/640x360/1" alt="Jay 'LineKing'" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-heading text-2xl text-white mb-1">JAY "LINEKING"</h3>
+                        <p class="text-accentBlue mb-4">FADES | TAPERS | BEARD WORK</p>
+                        <p class="text-silver mb-4">8 years perfecting crisp fades and sharp line-ups. Book direct—no fees.</p>
+                        <a href="/barbers/jay-lineking" class="inline-block bg-accentRed hover:bg-red-700 text-white px-4 py-2 rounded-none font-bold transition">BOOK WITH JAY</a>
+                    </div>
+                </div>
+                
+                <!-- Barber Card 2 -->
+                <div class="barber-card bg-black relative transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-corner top-left text-accentRed">K ♠</div>
+                    <div class="card-corner bottom-right text-accentRed">K ♠</div>
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="http://static.photos/people/640x360/2" alt="Mia 'Shears'" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-heading text-2xl text-white mb-1">MIA "SHEARS"</h3>
+                        <p class="text-accentBlue mb-4">DESIGNS | KIDS CUTS | CLASSIC STYLES</p>
+                        <p class="text-silver mb-4">Creative cuts with precision. Book direct—no fees.</p>
+                        <a href="/barbers/mia-shears" class="inline-block bg-accentRed hover:bg-red-700 text-white px-4 py-2 rounded-none font-bold transition">BOOK WITH MIA</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-charcoal mb-4">OUR WORK</h2>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver max-w-2xl mx-auto">
+                    See the precision and craftsmanship that goes into every cut at West Coast Kutz.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="http://static.photos/black/640x360/10" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="http://static.photos/black/640x360/11" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="http://static.photos/black/640x360/12" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="http://static.photos/black/640x360/13" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="http://static.photos/black/640x360/14" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+                <div class="overflow-hidden rounded-lg" data-aos="zoom-in" data-aos-delay="300">
+                    <img src="http://static.photos/black/640x360/15" alt="Barber work" class="w-full h-64 object-cover hover:scale-105 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-20 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl md:text-5xl text-white mb-4">CLIENT REVIEWS</h2>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver max-w-2xl mx-auto">
+                    Don't just take our word for it—see what our clients have to say about their experience.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="bg-gray-900 p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img src="http://static.photos/people/200x200/1" alt="Client" class="w-10 h-10 rounded-full border-2 border-accentGold">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white font-medium">Michael T.</h4>
+                            <div class="flex text-accentGold">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-silver">
+                        "Best fade I've ever had! Jay's attention to detail is unmatched. The online booking was super easy with no extra fees."
+                    </p>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="bg-gray-900 p-6 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img src="http://static.photos/people/200x200/2" alt="Client" class="w-10 h-10 rounded-full border-2 border-accentGold">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white font-medium">Sarah K.</h4>
+                            <div class="flex text-accentGold">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-silver">
+                        "Mia gave my son the perfect first haircut! She was so patient and made him feel comfortable. Will definitely be back."
+                    </p>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="bg-gray-900 p-6 rounded-lg" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-4">
+                        <div class="flex -space-x-2">
+                            <img src="http://static.photos/people/200x200/3" alt="Client" class="w-10 h-10 rounded-full border-2 border-accentGold">
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white font-medium">David R.</h4>
+                            <div class="flex text-accentGold">
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                                <i data-feather="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-silver">
+                        "Consistently great cuts every time. Love that I can book directly without paying extra fees to some booking platform."
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="https://g.page/westcoastkutz/review" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">
+                    <i data-feather="edit" class="w-5 h-5 mr-2"></i> Leave a Review
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hours & Location Section -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div data-aos="fade-right">
+                    <h2 class="font-heading text-4xl text-charcoal mb-6">HOURS & LOCATION</h2>
+                    <div class="bg-gray-50 p-6 rounded-lg">
+                        <div class="mb-6">
+                            <h3 class="font-medium text-lg text-charcoal mb-2">Business Hours</h3>
+                            <ul class="space-y-2 text-silver">
+                                <li class="flex justify-between">
+                                    <span>Tuesday - Friday</span>
+                                    <span>9:00 AM - 6:00 PM</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>Saturday</span>
+                                    <span>9:00 AM - 3:00 PM</span>
+                                </li>
+                                <li class="flex justify-between">
+                                    <span>Sunday - Monday</span>
+                                    <span>Closed</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-lg text-charcoal mb-2">Contact</h3>
+                            <div class="space-y-3 text-silver">
+                                <div class="flex items-center">
+                                    <i data-feather="map-pin" class="w-5 h-5 mr-3 text-accentRed"></i>
+                                    <span>123 W 2nd St, Hastings, NE 68901</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="phone" class="w-5 h-5 mr-3 text-accentRed"></i>
+                                    <span>(402) 555-0123</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i data-feather="mail" class="w-5 h-5 mr-3 text-accentRed"></i>
+                                    <span>hello@westcoastkutz.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left">
+                    <div class="h-full bg-gray-200 rounded-lg overflow-hidden">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215373510518!2d-73.9878449242644!3d40.74844097138899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU0LjQiTiA3M8KwNTknMTQuNyJX!5e0!3m2!1sen!2sus!4v1623862937704!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy"
+                            class="min-h-[400px]"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="font-heading text-4xl text-charcoal mb-4">FREQUENTLY ASKED QUESTIONS</h2>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver max-w-2xl mx-auto">
+                    Have questions? We've got answers. If you can't find what you're looking for, feel free to contact us.
+                </p>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up" data-aos-delay="100">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="toggleFAQ(1)">
+                        <h3 class="font-medium text-lg text-charcoal">Do you take walk-ins?</h3>
+                        <i data-feather="chevron-down" class="w-5 h-5 text-accentRed transition-transform duration-300" id="faq-icon-1"></i>
+                    </button>
+                    <div class="mt-4 text-silver hidden" id="faq-content-1">
+                        <p>Yes, we do accept walk-ins when we have availability. However, booking an appointment is recommended to guarantee your preferred time slot with your preferred barber.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up" data-aos-delay="200">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="toggleFAQ(2)">
+                        <h3 class="font-medium text-lg text-charcoal">Do you require deposits?</h3>
+                        <i data-feather="chevron-down" class="w-5 h-5 text-accentRed transition-transform duration-300" id="faq-icon-2"></i>
+                    </button>
+                    <div class="mt-4 text-silver hidden" id="faq-content-2">
+                        <p>Deposits are optional for most services but may be required for certain premium services or during peak times to reduce no-shows. Any deposit paid will be applied to your service total.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="toggleFAQ(3)">
+                        <h3 class="font-medium text-lg text-charcoal">What's your cancellation policy?</h3>
+                        <i data-feather="chevron-down" class="w-5 h-5 text-accentRed transition-transform duration-300" id="faq-icon-3"></i>
+                    </button>
+                    <div class="mt-4 text-silver hidden" id="faq-content-3">
+                        <p>We kindly ask that you cancel or reschedule your appointment at least 12 hours in advance. Late cancellations or no-shows may result in a fee or requirement for a deposit on future bookings.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                    <button class="flex justify-between items-center w-full text-left focus:outline-none" onclick="toggleFAQ(4)">
+                        <h3 class="font-medium text-lg text-charcoal">Do you accept credit cards?</h3>
+                        <i data-feather="chevron-down" class="w-5 h-5 text-accentRed transition-transform duration-300" id="faq-icon-4"></i>
+                    </button>
+                    <div class="mt-4 text-silver hidden" id="faq-content-4">
+                        <p>Yes, we accept all major credit cards, debit cards, and cash. We also offer contactless payment options for your convenience.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="/policies" class="inline-block border-2 border-charcoal hover:bg-charcoal hover:text-white text-charcoal px-6 py-3 rounded-md font-medium text-lg transition">View All Policies</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-accentRed">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="zoom-in">
+            <h2 class="font-heading text-4xl text-white mb-6">READY FOR YOUR NEXT CUT?</h2>
+            <p class="text-white/90 mb-8 text-xl">
+                Book directly with us and save on third-party booking fees. Your perfect cut is just a few clicks away.
+            </p>
+            <a href="/book" class="inline-block bg-charcoal hover:bg-gray-900 text-white px-8 py-4 rounded-md font-medium text-lg transition">Book Your Appointment Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal border-t border-silver/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="font-heading text-2xl text-white mb-4">WEST COAST <span class="text-accentRed">KUTZ</span></h3>
+                    <p class="text-silver mb-4">
+                        Clean fades. Sharp lines. Right on time.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-silver hover:text-white transition">
+                            <i data-feather="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-silver hover:text-white transition">
+                            <i data-feather="instagram" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="text-silver hover:text-white transition">
+                            <i data-feather="twitter" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">QUICK LINKS</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#services" class="text-silver hover:text-accentGold transition">Services</a></li>
+                        <li><a href="#barbers" class="text-silver hover:text-accentGold transition">Barbers</a></li>
+                        <li><a href="#gallery" class="text-silver hover:text-accentGold transition">Gallery</a></li>
+                        <li><a href="#reviews" class="text-silver hover:text-accentGold transition">Reviews</a></li>
+                        <li><a href="/policies" class="text-silver hover:text-accentGold transition">Policies</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">CONTACT</h4>
+                    <ul class="space-y-2 text-silver">
+                        <li class="flex items-center">
+                            <i data-feather="map-pin" class="w-4 h-4 mr-2"></i>
+                            <span>123 W 2nd St, Hastings, NE 68901</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="phone" class="w-4 h-4 mr-2"></i>
+                            <span>(402) 555-0123</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-feather="mail" class="w-4 h-4 mr-2"></i>
+                            <span>hello@westcoastkutz.com</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-medium mb-4">HOURS</h4>
+                    <ul class="space-y-2 text-silver">
+                        <li class="flex justify-between">
+                            <span>Tuesday - Friday</span>
+                            <span>9AM - 6PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Saturday</span>
+                            <span>9AM - 3PM</span>
+                        </li>
+                        <li class="flex justify-between">
+                            <span>Sunday - Monday</span>
+                            <span>Closed</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-silver/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-silver text-sm mb-4 md:mb-0">
+                    &copy; 2023 West Coast Kutz. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="/privacy" class="text-silver hover:text-white text-sm transition">Privacy Policy</a>
+                    <a href="/terms" class="text-silver hover:text-white text-sm transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile CTA -->
+    <div class="md:hidden fixed bottom-4 right-4 left-4 z-50">
+        <a href="/book" class="block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-center shadow-lg transition">
+            Book Now
+        </a>
+    </div>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Initialize Feather Icons
+        feather.replace();
+        
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // FAQ toggle function
+        function toggleFAQ(id) {
+            const content = document.getElementById(`faq-content-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+        
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js').then(registration => {
+                    console.log('ServiceWorker registration successful');
+                }).catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

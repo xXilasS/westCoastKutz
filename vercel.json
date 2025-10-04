@@ -1,6 +1,7 @@
 {
   "buildCommand": "",
   "outputDirectory": ".",
+  "cleanUrls": true,
   "rewrites": [
     {
       "source": "/book",
@@ -9,6 +10,10 @@
     {
       "source": "/book/(.*)",
       "destination": "/book.html"
+    },
+    {
+      "source": "/confirmation",
+      "destination": "/confirmation.html"
     }
   ],
   "headers": [

@@ -558,7 +558,7 @@ class BookingSystem {
             loadingOverlay.classList.add('hidden');
 
             // Redirect to payment/confirmation page
-            window.location.href = `/booking-confirmation.html?appointment=${result.appointment.id}`;
+            window.location.href = `/confirmation.html?appointment=${result.appointment.id}`;
 
         } catch (error) {
             console.error('Booking error:', error);

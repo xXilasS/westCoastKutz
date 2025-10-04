@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/booking-styles.css">
+    <link rel="manifest" href="/manifest.json">
     <script>
         // Suppress Tailwind CDN warning for development
         if (typeof tailwind !== 'undefined') {
@@ -296,20 +297,21 @@
 
         // Initialize social authentication when page loads
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Supabase client
-            const supabaseUrl = 'https://mktvcfzlojebtuwnehej.supabase.co';
-            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdHZjZnpsb2plYnR1d25laGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDkyMzIsImV4cCI6MjA3NTAyNTIzMn0.RPat9Gv4vxBVP-EBOuyAe6KuPXGMma1jI9RX3I8sYq0';
-
-            if (supabaseUrl !== 'YOUR_SUPABASE_URL' && supabaseKey !== 'YOUR_SUPABASE_ANON_KEY') {
-                const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-                // Initialize social authentication
-                window.socialAuth = new SocialAuth(supabase);
-
-                // Make supabase available globally for booking system
-                window.supabaseClient = supabase;
+            // Wait for supabase-config.js to load and initialize
+            if (window.SUPABASE_CONFIG && window.supabaseClient) {
+                // Initialize social authentication with existing client
+                window.socialAuth = new SocialAuth(window.supabaseClient);
+                console.log('Social authentication initialized with existing Supabase client');
             } else {
-                console.warn('Supabase credentials not configured. Social authentication will not work.');
+                // Fallback: create client if config is available
+                if (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url !== 'YOUR_SUPABASE_URL') {
+                    const supabase = window.supabase.createClient(window.SUPABASE_CONFIG.url, window.SUPABASE_CONFIG.anonKey);
+                    window.supabaseClient = supabase;
+                    window.socialAuth = new SocialAuth(supabase);
+                    console.log('Social authentication initialized with new Supabase client');
+                } else {
+                    console.warn('Supabase configuration not found. Social authentication will not work.');
+                }
             }
         });
     </script>

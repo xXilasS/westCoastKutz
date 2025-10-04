@@ -1,21 +1,6 @@
 {
-  "buildCommand": "",
-  "outputDirectory": ".",
   "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/book",
-      "destination": "/book.html"
-    },
-    {
-      "source": "/book/(.*)",
-      "destination": "/book.html"
-    },
-    {
-      "source": "/confirmation",
-      "destination": "/confirmation.html"
-    }
-  ],
+  "trailingSlash": false,
   "headers": [
     {
       "source": "/api/(.*)",

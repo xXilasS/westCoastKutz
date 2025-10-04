@@ -1,0 +1,29 @@
+{
+  "name": "west-coast-kutz-booking",
+  "version": "1.0.0",
+  "description": "Custom booking system for West Coast Kutz barbershop",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required for static site'",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0",
+    "stripe": "^14.5.0",
+    "@sendgrid/mail": "^8.1.0",
+    "twilio": "^4.19.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.5.0"
+  },
+  "keywords": [
+    "booking",
+    "barbershop",
+    "appointments",
+    "vercel",
+    "supabase"
+  ],
+  "author": "West Coast Kutz",
+  "license": "MIT"
+}

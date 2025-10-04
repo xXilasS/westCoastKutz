@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="West Coast Kutz - Premium barbershop in Hastings, Nebraska offering precision cuts with no third-party booking fees.">
     <title>West Coast Kutz | Cuts with Culture</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#111827">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,8 +29,18 @@
             }
         }
     </script>
+
+    <!-- Supabase Configuration -->
+    <script>
+    window.SUPABASE_CONFIG = {
+        url: 'https://mktvcfzlojebtuwnehej.supabase.co',
+        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdHZjZnpsb2plYnR1d25laGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDkyMzIsImV4cCI6MjA3NTAyNTIzMn0.RPat9Gv4vxBVP-EBOuyAe6KuPXGMma1jI9RX3I8sYq0'
+    };
+    </script>
+
     <link href="https://fonts.cdnfonts.com/css/old-english-text-mt" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/booking-styles.css">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
@@ -83,7 +95,14 @@
                     <a href="#barbers" class="text-white hover:text-accentGold transition">Barbers</a>
                     <a href="#gallery" class="text-white hover:text-accentGold transition">Gallery</a>
                     <a href="#reviews" class="text-white hover:text-accentGold transition">Reviews</a>
-                    <a href="/book" class="bg-accentRed hover:bg-red-600 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                    <button onclick="openBookingModal()" class="bg-accentRed hover:bg-red-600 text-white px-4 py-2 rounded-md font-medium transition">Book Now</button>
+                    <div id="auth-buttons">
+                        <!-- Auth buttons will be populated by JavaScript -->
+                        <div class="flex items-center space-x-4">
+                            <button onclick="openAuthModal('login')" class="text-white hover:text-accentGold transition">Sign In</button>
+                            <button onclick="openAuthModal('register')" class="bg-accentGold hover:bg-yellow-600 text-white px-4 py-2 rounded-md font-medium transition">Sign Up</button>
+                        </div>
+                    </div>
                 </div>
                 <button class="md:hidden text-white focus:outline-none" id="mobile-menu-button">
                     <i data-feather="menu"></i>
@@ -97,7 +116,12 @@
                 <a href="#barbers" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Barbers</a>
                 <a href="#gallery" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Gallery</a>
                 <a href="#reviews" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Reviews</a>
-                <a href="/book" class="block px-3 py-2 bg-accentRed text-white rounded-md font-medium">Book Now</a>
+                <button onclick="openBookingModal()" class="block px-3 py-2 bg-accentRed text-white rounded-md font-medium w-full text-left">Book Now</button>
+                <div id="mobile-auth-buttons">
+                    <!-- Mobile auth buttons will be populated by JavaScript -->
+                    <button onclick="openAuthModal('login')" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Sign In</button>
+                    <button onclick="openAuthModal('register')" class="block px-3 py-2 text-white hover:bg-silver/10 rounded-md">Sign Up</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -116,7 +140,7 @@
                 Fresh fades. Real style. La Familia first. Book direct—no third-party fees.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="/book" class="bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">Book Now</a>
+                <button onclick="openBookingModal()" class="bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">Book Now</button>
                 <a href="#services" class="bg-transparent border-2 border-white hover:bg-white/10 text-white px-6 py-3 rounded-md font-medium text-lg transition">View Services</a>
             </div>
         </div>
@@ -151,7 +175,7 @@
                             <i data-feather="clock" class="w-4 h-4 mr-2"></i>
                             <span>30 minutes</span>
                         </div>
-                        <a href="/book?service=classic-cut" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                        <button onclick="openBookingModal('classic-cut')" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</button>
                     </div>
                 </div>
                 
@@ -167,7 +191,7 @@
                             <i data-feather="clock" class="w-4 h-4 mr-2"></i>
                             <span>45 minutes</span>
                         </div>
-                        <a href="/book?service=skin-fade" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                        <button onclick="openBookingModal('skin-fade')" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</button>
                     </div>
                 </div>
                 
@@ -183,13 +207,13 @@
                             <i data-feather="clock" class="w-4 h-4 mr-2"></i>
                             <span>20 minutes</span>
                         </div>
-                        <a href="/book?service=beard-trim" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</a>
+                        <button onclick="openBookingModal('beard-trim')" class="inline-block w-full text-center bg-charcoal hover:bg-gray-900 text-white px-4 py-2 rounded-md font-medium transition">Book Now</button>
                     </div>
                 </div>
             </div>
             
             <div class="text-center mt-12">
-                <a href="/book" class="inline-block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">View All Services</a>
+                <button onclick="openBookingModal()" class="inline-block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-lg transition">View All Services</button>
             </div>
         </div>
     </section>
@@ -491,7 +515,7 @@
             <p class="text-white/90 mb-8 text-xl">
                 Book directly with us and save on third-party booking fees. Your perfect cut is just a few clicks away.
             </p>
-            <a href="/book" class="inline-block bg-charcoal hover:bg-gray-900 text-white px-8 py-4 rounded-md font-medium text-lg transition">Book Your Appointment Now</a>
+            <button onclick="openBookingModal()" class="inline-block bg-charcoal hover:bg-gray-900 text-white px-8 py-4 rounded-md font-medium text-lg transition">Book Your Appointment Now</button>
         </div>
     </section>
 
@@ -505,10 +529,10 @@
                         Clean fades. Sharp lines. Right on time.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-silver hover:text-white transition">
+                        <a href="https://www.facebook.com/profile.php?id=100068346514251" class="text-silver hover:text-white transition">
                             <i data-feather="facebook" class="w-5 h-5"></i>
                         </a>
-                        <a href="#" class="text-silver hover:text-white transition">
+                        <a href="https://www.instagram.com/barber_jaz/" class="text-silver hover:text-white transition">
                             <i data-feather="instagram" class="w-5 h-5"></i>
                         </a>
                         <a href="#" class="text-silver hover:text-white transition">
@@ -579,9 +603,311 @@
 
     <!-- Mobile CTA -->
     <div class="md:hidden fixed bottom-4 right-4 left-4 z-50">
-        <a href="/book" class="block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-center shadow-lg transition">
+        <button onclick="openBookingModal()" class="block bg-accentRed hover:bg-red-600 text-white px-6 py-3 rounded-md font-medium text-center shadow-lg transition w-full">
             Book Now
-        </a>
+        </button>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                <!-- Modal Header -->
+                <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                    <h2 class="font-heading text-xl text-charcoal">Account</h2>
+                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <i data-feather="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-200">
+                    <button id="auth-login-tab" onclick="showAuthForm('login')" class="flex-1 py-3 px-4 text-center font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent hover:border-gray-300 active">
+                        Sign In
+                    </button>
+                    <button id="auth-register-tab" onclick="showAuthForm('register')" class="flex-1 py-3 px-4 text-center font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent hover:border-gray-300">
+                        Sign Up
+                    </button>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="p-6">
+                    <!-- Login Form -->
+                    <form id="auth-login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" id="login-email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" name="password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button type="button" onclick="handleForgotPassword()" class="text-sm text-accentRed hover:text-red-700">
+                                Forgot password?
+                            </button>
+                        </div>
+                        <div id="login-error" class="auth-error text-red-600 text-sm"></div>
+                        <button type="submit" class="w-full bg-accentRed hover:bg-red-600 text-white py-2 px-4 rounded-md font-medium transition">
+                            Sign In
+                        </button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="auth-register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                            <input type="text" name="fullName" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                            <input type="tel" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <input type="password" name="password" required minlength="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                            <input type="password" name="confirmPassword" required minlength="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div id="register-error" class="auth-error text-red-600 text-sm"></div>
+                        <button type="submit" class="w-full bg-accentRed hover:bg-red-600 text-white py-2 px-4 rounded-md font-medium transition">
+                            Sign Up
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customer Account Modal -->
+    <div id="account-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
+                    <h2 class="font-heading text-2xl text-charcoal">My Account</h2>
+                    <button onclick="closeAccountModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <i data-feather="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-gray-200 bg-white sticky top-16">
+                    <button id="account-appointments-tab" onclick="showAccountTab('appointments')" class="flex-1 py-3 px-4 text-center font-medium text-gray-500 hover:text-gray-700 border-b-2 border-accentRed text-accentRed">
+                        My Appointments
+                    </button>
+                    <button id="account-profile-tab" onclick="showAccountTab('profile')" class="flex-1 py-3 px-4 text-center font-medium text-gray-500 hover:text-gray-700 border-b-2 border-transparent hover:border-gray-300">
+                        Profile Settings
+                    </button>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="p-6">
+                    <!-- Appointments Tab -->
+                    <div id="account-appointments" class="account-tab">
+                        <div class="mb-6">
+                            <h3 class="font-heading text-xl text-charcoal mb-4">Upcoming Appointments</h3>
+                            <div id="upcoming-appointments" class="space-y-4">
+                                <!-- Upcoming appointments will be loaded here -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-heading text-xl text-charcoal mb-4">Past Appointments</h3>
+                            <div id="past-appointments" class="space-y-4">
+                                <!-- Past appointments will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Tab -->
+                    <div id="account-profile" class="account-tab hidden">
+                        <h3 class="font-heading text-xl text-charcoal mb-6">Profile Information</h3>
+                        <form id="profile-form" onsubmit="handleProfileUpdate(event)" class="space-y-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                    <input type="text" id="profile-full-name" name="full_name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <input type="tel" id="profile-phone" name="phone" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                    <input type="email" id="profile-email" name="email" disabled class="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed">
+                                    <p class="text-xs text-gray-500 mt-1">Email cannot be changed. Contact support if needed.</p>
+                                </div>
+                            </div>
+                            <div id="profile-error" class="text-red-600 text-sm"></div>
+                            <div id="profile-success" class="text-green-600 text-sm"></div>
+                            <button type="submit" class="bg-accentRed hover:bg-red-600 text-white py-2 px-6 rounded-md font-medium transition">
+                                Update Profile
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <!-- Modal Header -->
+                <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center rounded-t-lg">
+                    <div>
+                        <h1 class="font-heading text-2xl md:text-3xl text-charcoal">BOOK YOUR APPOINTMENT</h1>
+                        <p class="text-silver text-sm">No third-party fees. Book directly with us.</p>
+                    </div>
+                    <button onclick="closeBookingModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <i data-feather="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Content -->
+                <div class="p-6">
+                    <!-- Progress Steps -->
+                    <div class="flex justify-center mb-8">
+                        <div class="flex items-center space-x-4">
+                            <div class="step-indicator active flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">1</div>
+                            <div class="w-12 h-0.5 bg-gray-300"></div>
+                            <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">2</div>
+                            <div class="w-12 h-0.5 bg-gray-300"></div>
+                            <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">3</div>
+                            <div class="w-12 h-0.5 bg-gray-300"></div>
+                            <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">4</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Service Selection -->
+                    <div id="modal-step-1" class="booking-step">
+                        <h2 class="font-heading text-xl text-charcoal mb-6">Choose Your Service</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="modal-services-grid">
+                            <!-- Services will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Barber Selection -->
+                    <div id="modal-step-2" class="booking-step hidden">
+                        <h2 class="font-heading text-xl text-charcoal mb-6">Choose Your Barber</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="modal-barbers-grid">
+                            <!-- Barbers will be loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Date & Time Selection -->
+                    <div id="modal-step-3" class="booking-step hidden">
+                        <h2 class="font-heading text-xl text-charcoal mb-6">Select Date & Time</h2>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <!-- Calendar -->
+                            <div>
+                                <h3 class="font-medium text-charcoal mb-4">Choose Date</h3>
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="calendar-header flex justify-between items-center mb-4">
+                                        <button id="modal-prev-month" class="p-2 hover:bg-gray-200 rounded">
+                                            <i data-feather="chevron-left" class="w-5 h-5"></i>
+                                        </button>
+                                        <h4 id="modal-current-month" class="font-medium text-charcoal"></h4>
+                                        <button id="modal-next-month" class="p-2 hover:bg-gray-200 rounded">
+                                            <i data-feather="chevron-right" class="w-5 h-5"></i>
+                                        </button>
+                                    </div>
+                                    <div class="grid grid-cols-7 gap-1 text-center text-sm">
+                                        <div class="p-2 font-medium text-gray-500">Sun</div>
+                                        <div class="p-2 font-medium text-gray-500">Mon</div>
+                                        <div class="p-2 font-medium text-gray-500">Tue</div>
+                                        <div class="p-2 font-medium text-gray-500">Wed</div>
+                                        <div class="p-2 font-medium text-gray-500">Thu</div>
+                                        <div class="p-2 font-medium text-gray-500">Fri</div>
+                                        <div class="p-2 font-medium text-gray-500">Sat</div>
+                                    </div>
+                                    <div id="modal-calendar-days" class="grid grid-cols-7 gap-1 text-center text-sm">
+                                        <!-- Calendar days will be generated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Time Slots -->
+                            <div>
+                                <h3 class="font-medium text-charcoal mb-4">Available Times</h3>
+                                <div id="modal-time-slots" class="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
+                                    <div class="text-center text-gray-500 col-span-2 py-8">
+                                        Select a date to see available times
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Customer Information -->
+                    <div id="modal-step-4" class="booking-step hidden">
+                        <h2 class="font-heading text-xl text-charcoal mb-6">Your Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-charcoal mb-2">Full Name *</label>
+                                <input type="text" id="modal-customer-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-charcoal mb-2">Phone Number *</label>
+                                <input type="tel" id="modal-customer-phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-charcoal mb-2">Email Address *</label>
+                                <input type="email" id="modal-customer-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-charcoal mb-2">Special Requests (Optional)</label>
+                                <textarea id="modal-customer-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Booking Summary -->
+                        <div class="mt-8 bg-gray-50 p-6 rounded-lg">
+                            <h3 class="font-medium text-charcoal mb-4">Booking Summary</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span>Service:</span>
+                                    <span id="modal-summary-service" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Barber:</span>
+                                    <span id="modal-summary-barber" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Date & Time:</span>
+                                    <span id="modal-summary-datetime" class="font-medium"></span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Duration:</span>
+                                    <span id="modal-summary-duration" class="font-medium"></span>
+                                </div>
+                                <div class="border-t pt-2 mt-2">
+                                    <div class="flex justify-between font-medium text-lg">
+                                        <span>Total:</span>
+                                        <span id="modal-summary-price" class="text-accentRed"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8 pt-4 border-t border-gray-200">
+                        <button id="modal-prev-step" class="hidden bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-md font-medium transition">Previous</button>
+                        <div></div>
+                        <button id="modal-next-step" class="bg-accentRed hover:bg-red-600 text-white px-6 py-2 rounded-md font-medium transition">Next Step</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -611,6 +937,221 @@
             icon.classList.toggle('rotate-180');
         }
         
+        // Booking Modal Functions
+        let bookingSystem = null;
+
+        function openBookingModal(preSelectedService = null) {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+
+            // Initialize booking system if not already done
+            if (!bookingSystem) {
+                bookingSystem = new BookingSystem(true); // true indicates modal mode
+            }
+
+            // Pre-select service if specified
+            if (preSelectedService) {
+                bookingSystem.preSelectService(preSelectedService);
+            }
+
+            // Reset to first step
+            bookingSystem.resetToFirstStep();
+
+            // Replace feather icons
+            feather.replace();
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('booking-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+
+            // Reset booking system
+            if (bookingSystem) {
+                bookingSystem.reset();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('booking-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBookingModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeBookingModal();
+                closeAuthModal();
+                closeAccountModal();
+            }
+        });
+
+        // Account Modal Functions
+        function openAccountModal() {
+            if (!authSystem || !authSystem.isLoggedIn()) {
+                openAuthModal('login');
+                return;
+            }
+
+            const modal = document.getElementById('account-modal');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Load user data
+            loadAccountData();
+
+            feather.replace();
+        }
+
+        function closeAccountModal() {
+            const modal = document.getElementById('account-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function showAccountTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.account-tab').forEach(tab => tab.classList.add('hidden'));
+
+            // Show selected tab
+            document.getElementById(`account-${tabName}`).classList.remove('hidden');
+
+            // Update tab buttons
+            document.querySelectorAll('[id$="-tab"]').forEach(btn => {
+                btn.classList.remove('border-accentRed', 'text-accentRed');
+                btn.classList.add('border-transparent');
+            });
+
+            document.getElementById(`account-${tabName}-tab`).classList.add('border-accentRed', 'text-accentRed');
+            document.getElementById(`account-${tabName}-tab`).classList.remove('border-transparent');
+        }
+
+        async function loadAccountData() {
+            if (!authSystem || !authSystem.isLoggedIn()) return;
+
+            // Load profile data
+            const profile = authSystem.getUserProfile();
+            if (profile) {
+                document.getElementById('profile-full-name').value = profile.full_name || '';
+                document.getElementById('profile-phone').value = profile.phone || '';
+                document.getElementById('profile-email').value = profile.email || '';
+            }
+
+            // Load appointments
+            const result = await authSystem.getUserAppointments();
+            if (result.success) {
+                displayAppointments(result.data);
+            }
+        }
+
+        function displayAppointments(appointments) {
+            const now = new Date();
+            const upcoming = appointments.filter(apt => new Date(apt.appointment_date) >= now);
+            const past = appointments.filter(apt => new Date(apt.appointment_date) < now);
+
+            displayUpcomingAppointments(upcoming);
+            displayPastAppointments(past);
+        }
+
+        function displayUpcomingAppointments(appointments) {
+            const container = document.getElementById('upcoming-appointments');
+
+            if (appointments.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No upcoming appointments</p>';
+                return;
+            }
+
+            container.innerHTML = appointments.map(apt => `
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-medium text-charcoal">${apt.services?.name || 'Service'}</h4>
+                            <p class="text-sm text-gray-600">with ${apt.barbers?.name || 'Barber'} "${apt.barbers?.nickname || ''}"</p>
+                            <p class="text-sm text-gray-600">${new Date(apt.appointment_date).toLocaleDateString()} at ${apt.appointment_time}</p>
+                            <p class="text-sm text-gray-600">Duration: ${apt.services?.duration_minutes || apt.duration_minutes} minutes</p>
+                            <p class="text-sm font-medium text-accentRed">$${(apt.price_cents / 100).toFixed(2)}</p>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="cancelAppointment('${apt.id}')" class="text-red-600 hover:text-red-800 text-sm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayPastAppointments(appointments) {
+            const container = document.getElementById('past-appointments');
+
+            if (appointments.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center py-8">No past appointments</p>';
+                return;
+            }
+
+            container.innerHTML = appointments.map(apt => `
+                <div class="border border-gray-200 rounded-lg p-4 opacity-75">
+                    <div>
+                        <h4 class="font-medium text-charcoal">${apt.services?.name || 'Service'}</h4>
+                        <p class="text-sm text-gray-600">with ${apt.barbers?.name || 'Barber'} "${apt.barbers?.nickname || ''}"</p>
+                        <p class="text-sm text-gray-600">${new Date(apt.appointment_date).toLocaleDateString()} at ${apt.appointment_time}</p>
+                        <p class="text-sm text-gray-600">Status: ${apt.status}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function cancelAppointment(appointmentId) {
+            if (!confirm('Are you sure you want to cancel this appointment?')) return;
+
+            const result = await authSystem.cancelAppointment(appointmentId);
+
+            if (result.success) {
+                alert('Appointment cancelled successfully');
+                loadAccountData(); // Refresh the appointments list
+            } else {
+                alert('Error cancelling appointment: ' + result.error);
+            }
+        }
+
+        async function handleProfileUpdate(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            const updates = {
+                full_name: formData.get('full_name'),
+                phone: formData.get('phone')
+            };
+
+            const result = await authSystem.updateProfile(updates);
+
+            if (result.success) {
+                document.getElementById('profile-success').textContent = 'Profile updated successfully!';
+                document.getElementById('profile-error').textContent = '';
+                setTimeout(() => {
+                    document.getElementById('profile-success').textContent = '';
+                }, 3000);
+            } else {
+                document.getElementById('profile-error').textContent = result.error;
+                document.getElementById('profile-success').textContent = '';
+            }
+        }
+
+        // Close account modal when clicking outside
+        document.getElementById('account-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAccountModal();
+            }
+        });
+
+        // Close auth modal when clicking outside
+        document.getElementById('auth-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAuthModal();
+            }
+        });
+
         // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -622,5 +1163,14 @@
             });
         }
     </script>
+
+    <!-- Include Supabase client -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Include authentication system -->
+    <script src="js/auth.js"></script>
+
+    <!-- Include booking system JavaScript -->
+    <script src="js/booking-modal.js"></script>
 </body>
 </html>

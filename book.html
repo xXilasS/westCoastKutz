@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Book your appointment at West Coast Kutz - No third-party fees, direct booking">
+    <title>Book Appointment | West Coast Kutz</title>
+    <!-- For development only - replace with compiled CSS in production -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/booking-styles.css">
+    <script>
+        // Suppress Tailwind CDN warning for development
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            'heading': ['Oswald', 'sans-serif'],
+                            'body': ['Open Sans', 'sans-serif'],
+                        },
+                        colors: {
+                            'charcoal': '#2D2D2D',
+                            'silver': '#C0C0C0',
+                            'accentRed': '#B91C1C',
+                            'accentBlue': '#1D4ED8',
+                            'accentGold': '#F59E0B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        .font-heading { font-family: 'Oswald', sans-serif; }
+        .step-indicator.active { background: #B91C1C; color: white; }
+        .step-indicator.completed { background: #10B981; color: white; }
+        .service-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px -5px rgba(185, 28, 28, 0.3); }
+        .barber-card { border: 3px solid #B91C1C; }
+        .barber-card.selected { background: #B91C1C; color: white; }
+        .time-slot { transition: all 0.2s; }
+        .time-slot:hover { background: #FEF2F2; border-color: #B91C1C; }
+        .time-slot.selected { background: #B91C1C; color: white; border-color: #B91C1C; }
+        .calendar-day { transition: all 0.2s; }
+        .calendar-day:hover { background: #FEF2F2; }
+        .calendar-day.selected { background: #B91C1C; color: white; }
+        .calendar-day.disabled { opacity: 0.3; cursor: not-allowed; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation (simplified) -->
+    <nav class="bg-charcoal shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="/" class="text-white font-heading text-xl font-bold">WEST COAST KUTZ</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/" class="text-silver hover:text-white transition">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="font-heading text-4xl md:text-5xl text-charcoal mb-4">BOOK YOUR APPOINTMENT</h1>
+                <div class="w-20 h-1 bg-accentRed mx-auto mb-6"></div>
+                <p class="text-silver text-lg">No third-party fees. Book directly with us.</p>
+            </div>
+
+            <!-- Progress Steps -->
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator active flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">1</div>
+                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">2</div>
+                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">3</div>
+                    <div class="w-12 h-0.5 bg-gray-300"></div>
+                    <div class="step-indicator flex items-center justify-center w-8 h-8 rounded-full bg-gray-300 text-gray-600 text-sm font-medium">4</div>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <!-- Step 1: Service Selection -->
+                <div id="step-1" class="booking-step">
+                    <h2 class="font-heading text-2xl text-charcoal mb-6">Choose Your Service</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="services-grid">
+                        <!-- Services will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Barber Selection -->
+                <div id="step-2" class="booking-step hidden">
+                    <h2 class="font-heading text-2xl text-charcoal mb-6">Choose Your Barber</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="barbers-grid">
+                        <!-- Barbers will be loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Step 3: Date & Time Selection -->
+                <div id="step-3" class="booking-step hidden">
+                    <h2 class="font-heading text-2xl text-charcoal mb-6">Select Date & Time</h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Calendar -->
+                        <div>
+                            <h3 class="font-medium text-charcoal mb-4">Choose Date</h3>
+                            <div class="bg-gray-50 p-4 rounded-lg">
+                                <div class="calendar-header flex justify-between items-center mb-4">
+                                    <button id="prev-month" class="p-2 hover:bg-gray-200 rounded">
+                                        <i data-feather="chevron-left" class="w-5 h-5"></i>
+                                    </button>
+                                    <h4 id="current-month" class="font-medium text-charcoal"></h4>
+                                    <button id="next-month" class="p-2 hover:bg-gray-200 rounded">
+                                        <i data-feather="chevron-right" class="w-5 h-5"></i>
+                                    </button>
+                                </div>
+                                <div class="grid grid-cols-7 gap-1 text-center text-sm">
+                                    <div class="p-2 font-medium text-gray-500">Sun</div>
+                                    <div class="p-2 font-medium text-gray-500">Mon</div>
+                                    <div class="p-2 font-medium text-gray-500">Tue</div>
+                                    <div class="p-2 font-medium text-gray-500">Wed</div>
+                                    <div class="p-2 font-medium text-gray-500">Thu</div>
+                                    <div class="p-2 font-medium text-gray-500">Fri</div>
+                                    <div class="p-2 font-medium text-gray-500">Sat</div>
+                                </div>
+                                <div id="calendar-days" class="grid grid-cols-7 gap-1 text-center text-sm">
+                                    <!-- Calendar days will be generated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Time Slots -->
+                        <div>
+                            <h3 class="font-medium text-charcoal mb-4">Available Times</h3>
+                            <div id="time-slots" class="grid grid-cols-2 gap-2">
+                                <div class="text-center text-gray-500 col-span-2 py-8">
+                                    Select a date to see available times
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Customer Information -->
+                <div id="step-4" class="booking-step hidden">
+                    <h2 class="font-heading text-2xl text-charcoal mb-6">Your Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-charcoal mb-2">Full Name *</label>
+                            <input type="text" id="customer-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-charcoal mb-2">Phone Number *</label>
+                            <input type="tel" id="customer-phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-charcoal mb-2">Email Address *</label>
+                            <input type="email" id="customer-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-charcoal mb-2">Special Requests (Optional)</label>
+                            <textarea id="customer-notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Booking Summary -->
+                    <div class="mt-8 bg-gray-50 p-6 rounded-lg">
+                        <h3 class="font-medium text-charcoal mb-4">Booking Summary</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span>Service:</span>
+                                <span id="summary-service" class="font-medium"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Barber:</span>
+                                <span id="summary-barber" class="font-medium"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Date & Time:</span>
+                                <span id="summary-datetime" class="font-medium"></span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Duration:</span>
+                                <span id="summary-duration" class="font-medium"></span>
+                            </div>
+                            <div class="border-t pt-2 mt-2">
+                                <div class="flex justify-between font-medium text-lg">
+                                    <span>Total:</span>
+                                    <span id="summary-price" class="text-accentRed"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between mt-8">
+                    <button id="prev-step" class="hidden bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 rounded-md font-medium transition">Previous</button>
+                    <div></div>
+                    <button id="next-step" class="bg-accentRed hover:bg-red-600 text-white px-6 py-2 rounded-md font-medium transition">Next Step</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg text-center">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-accentRed mx-auto mb-4"></div>
+            <p class="text-charcoal">Processing your booking...</p>
+        </div>
+    </div>
+
+    <script src="js/booking.js"></script>
+    <script>feather.replace()</script>
+</body>
+</html>

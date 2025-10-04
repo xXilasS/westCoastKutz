@@ -1,0 +1,218 @@
+/* West Coast Kutz Booking System - Custom Styles */
+/* This file contains custom styles that complement Tailwind CSS */
+
+/* Custom color variables for consistency */
+:root {
+    --charcoal: #2D2D2D;
+    --silver: #C0C0C0;
+    --accent-red: #B91C1C;
+    --accent-blue: #1D4ED8;
+    --accent-gold: #F59E0B;
+}
+
+/* Font families */
+body { 
+    font-family: 'Open Sans', sans-serif; 
+}
+
+.font-heading { 
+    font-family: 'Oswald', sans-serif; 
+}
+
+/* Custom component styles */
+.step-indicator.active { 
+    background: var(--accent-red); 
+    color: white; 
+}
+
+.step-indicator.completed { 
+    background: #10B981; 
+    color: white; 
+}
+
+.service-card:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 25px -5px rgba(185, 28, 28, 0.3); 
+}
+
+.barber-card { 
+    border: 3px solid var(--accent-red); 
+}
+
+.barber-card.selected { 
+    background: var(--accent-red); 
+    color: white; 
+}
+
+.time-slot { 
+    transition: all 0.2s; 
+}
+
+.time-slot:hover { 
+    background: #FEF2F2; 
+    border-color: var(--accent-red); 
+}
+
+.time-slot.selected { 
+    background: var(--accent-red); 
+    color: white; 
+    border-color: var(--accent-red); 
+}
+
+.calendar-day { 
+    transition: all 0.2s; 
+}
+
+.calendar-day:hover { 
+    background: #FEF2F2; 
+}
+
+.calendar-day.selected { 
+    background: var(--accent-red); 
+    color: white; 
+}
+
+.calendar-day.disabled { 
+    opacity: 0.3; 
+    cursor: not-allowed; 
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Button disabled state */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Ring utility classes for selection */
+.ring-2 {
+    box-shadow: 0 0 0 2px var(--accent-red);
+}
+
+.ring-accentRed {
+    --tw-ring-color: var(--accent-red);
+}
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+    .service-card {
+        margin-bottom: 1rem;
+    }
+    
+    .barber-card {
+        margin-bottom: 1rem;
+    }
+    
+    .time-slot {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Focus states for accessibility */
+.service-card:focus,
+.barber-card:focus,
+.time-slot:focus,
+.calendar-day:focus {
+    outline: 2px solid var(--accent-red);
+    outline-offset: 2px;
+}
+
+/* Custom scrollbar for time slots container */
+#time-slots::-webkit-scrollbar,
+#modal-time-slots::-webkit-scrollbar {
+    width: 6px;
+}
+
+#time-slots::-webkit-scrollbar-track,
+#modal-time-slots::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+#time-slots::-webkit-scrollbar-thumb,
+#modal-time-slots::-webkit-scrollbar-thumb {
+    background: var(--accent-red);
+    border-radius: 3px;
+}
+
+#time-slots::-webkit-scrollbar-thumb:hover,
+#modal-time-slots::-webkit-scrollbar-thumb:hover {
+    background: #991b1b;
+}
+
+/* Modal specific styles */
+#booking-modal {
+    backdrop-filter: blur(4px);
+}
+
+#booking-modal .bg-black {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal content animations */
+#booking-modal .bg-white {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Ensure modal content is scrollable */
+#booking-modal .max-h-\[90vh\] {
+    max-height: 90vh;
+}
+
+/* Modal close button hover effect */
+#booking-modal button[onclick="closeBookingModal()"] {
+    transition: all 0.2s;
+}
+
+#booking-modal button[onclick="closeBookingModal()"]:hover {
+    background-color: #f3f4f6;
+    border-radius: 50%;
+}
+
+/* Responsive modal adjustments */
+@media (max-width: 768px) {
+    #booking-modal .max-w-4xl {
+        max-width: 95vw;
+        margin: 1rem;
+    }
+
+    #booking-modal .p-6 {
+        padding: 1rem;
+    }
+
+    #booking-modal .grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Ensure modal z-index is higher than any other elements */
+#booking-modal {
+    z-index: 9999;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}

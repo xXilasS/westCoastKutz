@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - West Coast Kutz</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'heading': ['Oswald', 'sans-serif'],
+                        'body': ['Open Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        'charcoal': '#2D2D2D',
+                        'silver': '#C0C0C0',
+                        'accentRed': '#B91C1C',
+                        'accentBlue': '#1D4ED8',
+                        'accentGold': '#F59E0B',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Supabase Configuration -->
+    <script>
+    window.SUPABASE_CONFIG = {
+        url: 'https://mktvcfzlojebtuwnehej.supabase.co',
+        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdHZjZnpsb2plYnR1d25laGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDkyMzIsImV4cCI6MjA3NTAyNTIzMn0.RPat9Gv4vxBVP-EBOuyAe6KuPXGMma1jI9RX3I8sYq0'
+    };
+    </script>
+
+    <style>
+        body { font-family: 'Open Sans', sans-serif; }
+        .font-heading { font-family: 'Oswald', sans-serif; }
+        .sidebar-link.active { background-color: #B91C1C; color: white; }
+        .sidebar-link:hover { background-color: #FEF2F2; }
+        .sidebar-link.active:hover { background-color: #991B1B; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Admin Authentication Check -->
+    <div id="auth-check" class="hidden fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-accentRed mx-auto mb-4"></div>
+            <p class="text-gray-600">Checking authentication...</p>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="text-center mb-6">
+                    <h2 class="font-heading text-2xl text-charcoal mb-2">Admin Login</h2>
+                    <p class="text-gray-600">Access the West Coast Kutz admin dashboard</p>
+                </div>
+                
+                <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                        <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" name="password" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                    </div>
+                    <div id="admin-login-error" class="text-red-600 text-sm"></div>
+                    <button type="submit" class="w-full bg-accentRed hover:bg-red-600 text-white py-2 px-4 rounded-md font-medium transition">
+                        Sign In to Admin Dashboard
+                    </button>
+                </form>
+                
+                <div class="mt-4 text-center">
+                    <a href="/" class="text-sm text-gray-600 hover:text-gray-800">← Back to Main Site</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Admin Interface -->
+    <div id="admin-interface" class="hidden">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b border-gray-200">
+            <div class="flex justify-between items-center px-6 py-4">
+                <div class="flex items-center">
+                    <h1 class="font-heading text-xl text-charcoal">West Coast Kutz Admin</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600" id="admin-user-info">Loading...</span>
+                    <button onclick="adminAuth.signOut()" class="text-sm text-red-600 hover:text-red-800">Sign Out</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex h-screen">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white shadow-sm border-r border-gray-200">
+                <nav class="mt-6">
+                    <div class="px-3">
+                        <ul class="space-y-1">
+                            <li>
+                                <a href="#" onclick="showAdminSection('dashboard')" class="sidebar-link active flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="home" class="w-4 h-4 mr-3"></i>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('appointments')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="calendar" class="w-4 h-4 mr-3"></i>
+                                    Appointments
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('services')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="scissors" class="w-4 h-4 mr-3"></i>
+                                    Services
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('barbers')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="users" class="w-4 h-4 mr-3"></i>
+                                    Barbers
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('gallery')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="image" class="w-4 h-4 mr-3"></i>
+                                    Gallery
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('hero')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="monitor" class="w-4 h-4 mr-3"></i>
+                                    Hero Section
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onclick="showAdminSection('customers')" class="sidebar-link flex items-center px-3 py-2 text-sm font-medium rounded-md transition">
+                                    <i data-feather="user-check" class="w-4 h-4 mr-3"></i>
+                                    Customers
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-y-auto">
+                <div class="p-6">
+                    <!-- Dashboard Section -->
+                    <div id="admin-dashboard" class="admin-section">
+                        <div class="mb-6">
+                            <h2 class="font-heading text-2xl text-charcoal mb-2">Dashboard Overview</h2>
+                            <p class="text-gray-600">Welcome to your West Coast Kutz admin dashboard</p>
+                        </div>
+
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-2 bg-accentRed rounded-lg">
+                                        <i data-feather="calendar" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium text-gray-600">Today's Appointments</p>
+                                        <p class="text-2xl font-bold text-charcoal" id="today-appointments">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-2 bg-accentBlue rounded-lg">
+                                        <i data-feather="users" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium text-gray-600">Total Customers</p>
+                                        <p class="text-2xl font-bold text-charcoal" id="total-customers">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-2 bg-accentGold rounded-lg">
+                                        <i data-feather="dollar-sign" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium text-gray-600">This Month's Revenue</p>
+                                        <p class="text-2xl font-bold text-charcoal" id="monthly-revenue">-</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex items-center">
+                                    <div class="p-2 bg-green-600 rounded-lg">
+                                        <i data-feather="trending-up" class="w-6 h-6 text-white"></i>
+                                    </div>
+                                    <div class="ml-4">
+                                        <p class="text-sm font-medium text-gray-600">Pending Appointments</p>
+                                        <p class="text-2xl font-bold text-charcoal" id="pending-appointments">-</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white rounded-lg shadow">
+                            <div class="px-6 py-4 border-b border-gray-200">
+                                <h3 class="font-heading text-lg text-charcoal">Recent Appointments</h3>
+                            </div>
+                            <div class="p-6">
+                                <div id="recent-appointments" class="space-y-4">
+                                    <!-- Recent appointments will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other admin sections will be loaded here -->
+                    <div id="admin-appointments" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Appointment Management</h2>
+                        <!-- Appointments management content -->
+                    </div>
+
+                    <div id="admin-services" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Service Management</h2>
+                        <!-- Services management content -->
+                    </div>
+
+                    <div id="admin-barbers" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Barber Management</h2>
+                        <!-- Barbers management content -->
+                    </div>
+
+                    <div id="admin-gallery" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Gallery Management</h2>
+                        <!-- Gallery management content -->
+                    </div>
+
+                    <div id="admin-hero" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Hero Section Management</h2>
+                        <!-- Hero section management content -->
+                    </div>
+
+                    <div id="admin-customers" class="admin-section hidden">
+                        <h2 class="font-heading text-2xl text-charcoal mb-6">Customer Management</h2>
+                        <!-- Customer management content -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Service Management Modal -->
+    <div id="service-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+                <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                    <h3 class="font-heading text-lg text-charcoal" id="service-modal-title">Add Service</h3>
+                    <button onclick="closeServiceModal()" class="text-gray-400 hover:text-gray-600 transition">
+                        <i data-feather="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <form id="service-form" onsubmit="handleServiceSubmit(event)" class="p-6 space-y-4">
+                    <input type="hidden" id="service-id" name="id">
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Service Name</label>
+                        <input type="text" id="service-name" name="name" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea id="service-description" name="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+                            <input type="number" id="service-price" name="price" step="0.01" min="0" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (minutes)</label>
+                            <input type="number" id="service-duration" name="duration_minutes" min="1" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Display Order</label>
+                            <input type="number" id="service-order" name="display_order" min="0" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select id="service-active" name="is_active" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accentRed focus:border-transparent">
+                                <option value="true">Active</option>
+                                <option value="false">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="service-error" class="text-red-600 text-sm"></div>
+
+                    <div class="flex justify-end space-x-3 pt-4">
+                        <button type="button" onclick="closeServiceModal()" class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-accentRed hover:bg-red-600 text-white rounded-md font-medium transition">
+                            Save Service
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Supabase client -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Include admin authentication and dashboard scripts -->
+    <script src="js/admin-auth.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    <script src="js/admin-services.js"></script>
+    
+    <script>
+        feather.replace();
+        
+        // Initialize admin interface
+        document.addEventListener('DOMContentLoaded', () => {
+            adminAuth.init();
+        });
+    </script>
+</body>
+</html>

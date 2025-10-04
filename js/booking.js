@@ -12,8 +12,8 @@ class BookingSystem {
         this.currentMonth = new Date();
         
         // Supabase configuration (replace with your actual URL and anon key)
-        this.supabaseUrl = 'YOUR_SUPABASE_URL';
-        this.supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
+        this.supabaseUrl = 'https://mktvcfzlojebtuwnehej.supabase.co';
+        this.supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdHZjZnpsb2plYnR1d25laGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDkyMzIsImV4cCI6MjA3NTAyNTIzMn0.RPat9Gv4vxBVP-EBOuyAe6KuPXGMma1jI9RX3I8sYq0';
         
         this.init();
     }
@@ -515,23 +515,55 @@ class BookingSystem {
                 notes: document.getElementById('customer-notes').value.trim()
             };
 
-            // In production, this would:
-            // 1. Create appointment in Supabase
-            // 2. Process payment with Stripe
-            // 3. Send SMS/email notifications
-            // 4. Redirect to confirmation page
+            // Validate customer data
+            if (!customerData.name || !customerData.phone || !customerData.email) {
+                throw new Error('Please fill in all required fields');
+            }
 
-            // Mock success for demo
-            setTimeout(() => {
-                loadingOverlay.classList.add('hidden');
-                alert('Booking successful! You will receive a confirmation email and SMS shortly.');
-                window.location.href = '/confirmation.html';
-            }, 2000);
+            // Prepare booking data for API
+            const bookingData = {
+                barber_id: this.selectedBarber.id,
+                service_id: this.selectedService.id,
+                customer_name: customerData.name,
+                customer_phone: customerData.phone,
+                customer_email: customerData.email,
+                appointment_date: this.selectedDate.toISOString().split('T')[0], // YYYY-MM-DD format
+                appointment_time: this.selectedTime.value, // HH:MM format
+                notes: customerData.notes
+            };
+
+            console.log('Submitting booking:', bookingData);
+
+            // Call the booking API
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to create booking');
+            }
+
+            console.log('Booking created successfully:', result);
+
+            // Store appointment ID for confirmation page
+            sessionStorage.setItem('appointmentId', result.appointment.id);
+            sessionStorage.setItem('clientSecret', result.client_secret);
+
+            loadingOverlay.classList.add('hidden');
+
+            // Redirect to payment/confirmation page
+            window.location.href = `/confirmation.html?appointment=${result.appointment.id}`;
 
         } catch (error) {
             console.error('Booking error:', error);
             loadingOverlay.classList.add('hidden');
-            alert('There was an error processing your booking. Please try again.');
+            alert(`Error: ${error.message}`);
         }
     }
 }

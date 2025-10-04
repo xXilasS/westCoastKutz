@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating... - West Coast Kutz</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+        <!-- Loading Spinner -->
+        <div class="mb-6">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
+        </div>
+        
+        <!-- Status Message -->
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Authenticating...</h1>
+        <p id="status-message" class="text-gray-600 mb-6">
+            Please wait while we complete your sign-in.
+        </p>
+        
+        <!-- Error Message (hidden by default) -->
+        <div id="error-message" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800">Authentication Error</h3>
+                    <p id="error-text" class="mt-1 text-sm text-red-700"></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Manual Redirect Button (hidden by default) -->
+        <div id="manual-redirect" class="hidden">
+            <p class="text-gray-600 mb-4">If you're not redirected automatically:</p>
+            <a href="/book.html" class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors inline-block">
+                Continue to Booking
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseUrl = 'https://mktvcfzlojebtuwnehej.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rdHZjZnpsb2plYnR1d25laGVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0NDkyMzIsImV4cCI6MjA3NTAyNTIzMn0.RPat9Gv4vxBVP-EBOuyAe6KuPXGMma1jI9RX3I8sYq0';
+        
+        // You'll need to replace these with your actual Supabase credentials
+        // For now, we'll try to get them from the parent window or use environment detection
+        let supabase;
+        
+        try {
+            // Try to initialize Supabase
+            if (supabaseUrl !== 'YOUR_SUPABASE_URL' && supabaseKey !== 'YOUR_SUPABASE_ANON_KEY') {
+                supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            } else {
+                throw new Error('Supabase credentials not configured');
+            }
+        } catch (error) {
+            console.error('Failed to initialize Supabase:', error);
+            showError('Configuration error. Please contact support.');
+        }
+
+        async function handleAuthCallback() {
+            try {
+                updateStatus('Processing authentication...');
+                
+                if (!supabase) {
+                    throw new Error('Supabase client not initialized');
+                }
+
+                // Handle the OAuth callback
+                const { data, error } = await supabase.auth.getSession();
+                
+                if (error) {
+                    console.error('Auth callback error:', error);
+                    throw error;
+                }
+
+                if (data.session) {
+                    updateStatus('Authentication successful! Redirecting...');
+                    console.log('User authenticated:', data.session.user);
+                    
+                    // Create or update user profile
+                    await createUserProfile(data.session.user);
+                    
+                    // Redirect to booking page after successful authentication
+                    setTimeout(() => {
+                        window.location.href = '/book.html?authenticated=true';
+                    }, 1500);
+                    
+                } else {
+                    // No session found, might be an error or user cancelled
+                    updateStatus('No authentication session found.');
+                    showManualRedirect();
+                }
+                
+            } catch (error) {
+                console.error('Authentication error:', error);
+                showError(error.message || 'Authentication failed. Please try again.');
+                showManualRedirect();
+            }
+        }
+
+        async function createUserProfile(user) {
+            try {
+                // Check if user profile already exists
+                const { data: existingProfile, error: checkError } = await supabase
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .single();
+
+                if (checkError && checkError.code !== 'PGRST116') {
+                    console.error('Error checking user profile:', checkError);
+                    return;
+                }
+
+                // Create profile if it doesn't exist
+                if (!existingProfile) {
+                    const profileData = {
+                        user_id: user.id,
+                        full_name: user.user_metadata?.full_name || user.user_metadata?.name || '',
+                        email: user.email,
+                        phone: user.user_metadata?.phone || '',
+                        avatar_url: user.user_metadata?.avatar_url || '',
+                        provider: user.app_metadata?.provider || 'unknown',
+                        created_at: new Date().toISOString()
+                    };
+
+                    const { data, error } = await supabase
+                        .from('user_profiles')
+                        .insert(profileData);
+
+                    if (error) {
+                        console.error('Error creating user profile:', error);
+                    } else {
+                        console.log('User profile created successfully');
+                    }
+                }
+            } catch (error) {
+                console.error('Error in createUserProfile:', error);
+                // Don't fail the authentication if profile creation fails
+            }
+        }
+
+        function updateStatus(message) {
+            const statusElement = document.getElementById('status-message');
+            if (statusElement) {
+                statusElement.textContent = message;
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            
+            if (errorDiv && errorText) {
+                errorText.textContent = message;
+                errorDiv.classList.remove('hidden');
+            }
+            
+            // Hide loading spinner
+            const spinner = document.querySelector('.animate-spin');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        }
+
+        function showManualRedirect() {
+            const manualRedirect = document.getElementById('manual-redirect');
+            if (manualRedirect) {
+                manualRedirect.classList.remove('hidden');
+            }
+        }
+
+        // Handle authentication when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Small delay to ensure everything is loaded
+            setTimeout(handleAuthCallback, 500);
+        });
+
+        // Fallback: show manual redirect after 10 seconds
+        setTimeout(() => {
+            const errorDiv = document.getElementById('error-message');
+            if (errorDiv && errorDiv.classList.contains('hidden')) {
+                updateStatus('Taking longer than expected...');
+                showManualRedirect();
+            }
+        }, 10000);
+    </script>
+</body>
+</html>

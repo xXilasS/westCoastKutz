@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation | West Coast Kutz</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        accentRed: '#DC2626',
+                        darkGray: '#1F2937',
+                        lightGray: '#F9FAFB'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-lightGray min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-darkGray">West Coast Kutz</h1>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-600 hover:text-accentRed transition-colors">Home</a>
+                    <a href="/book.html" class="text-gray-600 hover:text-accentRed transition-colors">Book Now</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="bg-white rounded-lg shadow-lg p-8 text-center">
+            <!-- Success Icon -->
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+
+            <!-- Confirmation Message -->
+            <h1 class="text-3xl font-bold text-darkGray mb-4">Booking Confirmed!</h1>
+            <p class="text-lg text-gray-600 mb-8">
+                Your appointment has been successfully scheduled. You'll receive confirmation details via email and SMS.
+            </p>
+
+            <!-- Appointment Details -->
+            <div id="appointment-details" class="bg-gray-50 rounded-lg p-6 mb-8 text-left">
+                <h2 class="text-xl font-semibold text-darkGray mb-4">Appointment Details</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Service:</span>
+                        <span id="service-name" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Barber:</span>
+                        <span id="barber-name" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Date:</span>
+                        <span id="appointment-date" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Time:</span>
+                        <span id="appointment-time" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Duration:</span>
+                        <span id="duration" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Price:</span>
+                        <span id="price" class="font-medium">Loading...</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Appointment ID:</span>
+                        <span id="appointment-id" class="font-medium text-sm">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="bg-blue-50 rounded-lg p-6 mb-8 text-left">
+                <h3 class="text-lg font-semibold text-darkGray mb-3">What's Next?</h3>
+                <ul class="space-y-2 text-gray-600">
+                    <li class="flex items-start">
+                        <span class="text-blue-600 mr-2">•</span>
+                        You'll receive a confirmation email with all the details
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 mr-2">•</span>
+                        We'll send you an SMS reminder 24 hours before your appointment
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 mr-2">•</span>
+                        Payment will be processed when you arrive for your appointment
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-blue-600 mr-2">•</span>
+                        Need to reschedule? Call us at (555) 123-4567
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/" class="bg-accentRed text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                    Back to Home
+                </a>
+                <a href="/book.html" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                    Book Another Appointment
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-darkGray text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-xl font-bold mb-4">West Coast Kutz</h3>
+            <p class="text-gray-400 mb-4">Professional barbering services</p>
+            <p class="text-gray-400">📍 123 Main Street, Your City | 📞 (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Load appointment details from URL parameters or session storage
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const appointmentId = urlParams.get('appointment') || sessionStorage.getItem('appointmentId');
+            
+            if (appointmentId) {
+                document.getElementById('appointment-id').textContent = appointmentId;
+                
+                // In a real implementation, you would fetch appointment details from the API
+                // For now, we'll show placeholder data
+                loadAppointmentDetails(appointmentId);
+            } else {
+                // Show generic confirmation if no appointment ID
+                document.getElementById('appointment-details').innerHTML = 
+                    '<p class="text-gray-600">Appointment details will be sent to your email.</p>';
+            }
+        });
+
+        async function loadAppointmentDetails(appointmentId) {
+            try {
+                // This would fetch from your API in production
+                // For now, show placeholder data
+                document.getElementById('service-name').textContent = 'Classic Cut & Style';
+                document.getElementById('barber-name').textContent = 'Mike Johnson';
+                document.getElementById('appointment-date').textContent = new Date().toLocaleDateString();
+                document.getElementById('appointment-time').textContent = '2:00 PM';
+                document.getElementById('duration').textContent = '45 minutes';
+                document.getElementById('price').textContent = '$35.00';
+            } catch (error) {
+                console.error('Error loading appointment details:', error);
+                document.getElementById('appointment-details').innerHTML = 
+                    '<p class="text-red-600">Error loading appointment details. Please check your email for confirmation.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
